@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math Hero - Edisi Juara</title>
+    <title>Math Hero - Edisi Juara V2</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -40,6 +40,12 @@
         .pop-in {
             animation: pop-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
+        
+        @keyframes timer-run {
+            from { width: 100%; background-color: #22c55e; }
+            50% { background-color: #eab308; }
+            to { width: 0%; background-color: #ef4444; }
+        }
 
         .click-effect:active {
             transform: scale(0.95);
@@ -51,8 +57,8 @@
         .custom-scroll::-webkit-scrollbar-track { background: transparent; }
 
         /* Level Bar Gradient */
-        .xp-gradient {
-            background: linear-gradient(90deg, #f59e0b 0%, #f97316 100%);
+        .star-gradient {
+            background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
         }
 
         /* Tutorial Cards Hover */
@@ -81,14 +87,14 @@
             <div class="absolute inset-0 bg-yellow-50 -z-10"></div>
             <div class="text-6xl mb-2">🌟🆙🌟</div>
             <h2 class="text-3xl font-black text-yellow-600 fun-font mb-2">LEVEL UP!</h2>
-            <p class="text-gray-600 mb-6 font-bold">Kamu naik ke Level <span id="new-level-disp" class="text-2xl text-orange-600">2</span>!</p>
+            <p class="text-gray-600 mb-6 font-bold">Hebat! Kamu naik ke Level <span id="new-level-disp" class="text-2xl text-orange-600">2</span>!</p>
             <button onclick="closeLevelModal()" class="w-full py-3 rounded-xl bg-orange-500 text-white font-bold text-lg shadow-lg hover:bg-orange-600 transition-all click-effect">
                 Lanjut Main! 🚀
             </button>
         </div>
     </div>
 
-    <!-- Modal Time's Up -->
+    <!-- Modal Time's Up (Session) -->
     <div id="timeout-modal" class="fixed inset-0 bg-slate-900/90 z-[70] hidden flex items-center justify-center p-4 backdrop-blur-md">
         <div class="bg-white rounded-3xl p-8 text-center max-w-sm w-full border-4 border-red-400 shadow-2xl relative overflow-hidden">
             <div class="text-6xl mb-4">😴</div>
@@ -110,7 +116,7 @@
                     </div>
                     <div>
                         <div id="user-name-disp" class="font-bold fun-font leading-none text-lg">Juara</div>
-                        <div class="text-xs text-orange-100 font-bold tracking-wide">LVL <span id="user-level-disp">1</span></div>
+                        <div class="text-xs text-orange-100 font-bold tracking-wide">LEVEL <span id="user-level-disp">1</span></div>
                     </div>
                 </div>
                 
@@ -124,10 +130,14 @@
                     </button>
                 </div>
             </div>
+            <!-- Star Progress Bar -->
             <div class="relative">
-                <div class="flex justify-between text-[10px] font-bold text-orange-100 mb-1 px-1"><span>XP PROGRESS</span><span id="xp-text">0/100</span></div>
-                <div class="w-full h-2 bg-orange-700 rounded-full overflow-hidden border border-orange-400/50">
-                    <div id="xp-bar" class="h-full xp-gradient transition-all duration-500" style="width: 0%"></div>
+                <div class="flex justify-between text-[10px] font-bold text-orange-100 mb-1 px-1">
+                    <span>PROGRESS BINTANG</span>
+                    <span id="xp-text">0/10</span>
+                </div>
+                <div class="w-full h-3 bg-orange-700 rounded-full overflow-hidden border border-orange-400/50">
+                    <div id="xp-bar" class="h-full star-gradient transition-all duration-500" style="width: 0%"></div>
                 </div>
             </div>
         </div>
@@ -169,7 +179,7 @@
                 <div class="bg-gradient-to-br from-orange-400 to-red-500 text-white rounded-2xl p-6 mb-6 text-center shadow-lg relative overflow-hidden">
                     <i class="ph-duotone ph-star absolute -right-2 -bottom-2 text-8xl text-white opacity-20"></i>
                     <h2 class="text-2xl font-bold fun-font mb-1">Markas Juara</h2>
-                    <p class="text-orange-100 text-sm">Pilih misi belajarmu hari ini.</p>
+                    <p class="text-orange-100 text-sm">Kumpulkan bintang untuk naik level!</p>
                 </div>
 
                 <!-- Math Grid -->
@@ -192,12 +202,21 @@
                 <!-- Knowledge Grid -->
                 <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 ml-1">Keahlian Khusus</h3>
                 <div class="grid grid-cols-2 gap-3 mb-6">
+                     <!-- NEW: GAME MENGHITUNG GAMBAR -->
+                     <button onclick="startGame('counting')" class="click-effect p-3 rounded-2xl bg-white border-b-4 border-2 border-pink-100 flex flex-col items-center gap-1 hover:border-pink-300 group shadow-sm transition-all col-span-2">
+                        <div class="flex gap-2">
+                            <div class="w-10 h-10 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-xl"><i class="ph-bold ph-apple-logo"></i></div>
+                            <div class="w-10 h-10 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-xl"><i class="ph-bold ph-car"></i></div>
+                        </div>
+                        <span class="font-bold text-pink-800 text-sm mt-1">Hitung Gambar</span>
+                    </button>
+
                     <button onclick="startGame('clock')" class="click-effect p-3 rounded-2xl bg-white border-b-4 border-2 border-cyan-100 flex flex-col items-center gap-1 hover:border-cyan-300 group shadow-sm transition-all">
-                        <div class="w-10 h-10 bg-cyan-100 text-cyan-600 rounded-full flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="ph-bold ph-clock"></i></div>
+                        <div class="w-10 h-10 bg-cyan-100 text-cyan-600 rounded-full flex items-center justify-center text-xl"><i class="ph-bold ph-clock"></i></div>
                         <span class="font-bold text-cyan-800 text-sm">Baca Jam</span>
                     </button>
                     <button onclick="startGame('units')" class="click-effect p-3 rounded-2xl bg-white border-b-4 border-2 border-indigo-100 flex flex-col items-center gap-1 hover:border-indigo-300 group shadow-sm transition-all">
-                        <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="ph-bold ph-ruler"></i></div>
+                        <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-xl"><i class="ph-bold ph-ruler"></i></div>
                         <span class="font-bold text-indigo-800 text-sm">Satuan</span>
                     </button>
                 </div>
@@ -216,7 +235,7 @@
                         <div class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center"><i class="ph-fill ph-trophy text-xl"></i></div>
                         <div class="text-left flex-1">
                             <h3 class="font-bold text-gray-800">Rapor Juara</h3>
-                            <p class="text-xs text-gray-500">Cek levelmu di sini</p>
+                            <p class="text-xs text-gray-500">Lihat total bintangmu</p>
                         </div>
                         <i class="ph-bold ph-caret-right text-gray-300"></i>
                     </button>
@@ -228,20 +247,38 @@
                 </div>
             </div>
 
-            <!-- 3. LAYAR GAMEPLAY -->
+            <!-- 3. LAYAR GAMEPLAY (Dengan Timer) -->
             <div id="screen-game" class="hidden p-6 text-center h-full flex flex-col justify-center">
-                <div class="w-full bg-gray-200 rounded-full h-3 mb-8">
-                    <div id="game-timer-bar" class="bg-orange-500 h-3 rounded-full transition-all duration-700" style="width: 100%"></div>
+                
+                <!-- Info Bar: Progress Soal & Timer -->
+                <div class="flex justify-between items-center mb-2 px-2">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Waktu</span>
+                    <span id="question-progress-text" class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-1 rounded-lg">Soal 1/5</span>
                 </div>
-                <div id="question-container" class="mb-8 relative pop-in flex justify-center">
+                
+                <!-- Timer Bar -->
+                <div class="w-full bg-gray-200 rounded-full h-4 mb-6 overflow-hidden border border-gray-300">
+                    <div id="question-timer-bar" class="h-full rounded-full w-full"></div>
+                </div>
+
+                <div id="question-container" class="mb-6 relative pop-in flex justify-center">
+                    <!-- Text Box -->
                     <div id="text-question-box" class="inline-block bg-white px-8 py-6 rounded-3xl border-b-8 border-r-4 border-2 border-gray-200 shadow-sm min-w-[220px]">
                         <h2 id="question-text" class="text-4xl sm:text-5xl font-black text-gray-800 tracking-wider font-mono">0 + 0</h2>
                     </div>
+                    <!-- Clock Canvas -->
                     <div id="clock-question-box" class="hidden bg-white p-4 rounded-full border-4 border-sky-300 shadow-lg relative">
                         <canvas id="game-clock-canvas" width="220" height="220"></canvas>
-                        <div class="absolute inset-0 rounded-full border-4 border-white/30 pointer-events-none"></div>
+                    </div>
+                    <!-- Image Count Box -->
+                    <div id="image-question-box" class="hidden bg-white p-6 rounded-3xl border-b-8 border-r-4 border-2 border-pink-200 shadow-sm min-w-[250px]">
+                        <div id="image-grid" class="grid grid-cols-3 gap-2 text-4xl justify-center items-center">
+                            <!-- Emojis will be injected here -->
+                        </div>
+                        <p class="text-sm text-gray-400 font-bold mt-4">Ada berapa jumlahnya?</p>
                     </div>
                 </div>
+
                 <div id="feedback-msg" class="h-8 mb-4 font-bold text-xl transition-all opacity-0"></div>
                 <div id="options-grid" class="grid grid-cols-2 gap-4 max-w-sm mx-auto w-full"></div>
                 <button onclick="goHome()" class="w-full mt-6 py-4 rounded-xl bg-gray-100 border-2 border-gray-200 text-gray-500 font-bold text-lg hover:bg-red-50 hover:text-red-500 hover:border-red-200 transition-all flex items-center justify-center gap-2 click-effect">
@@ -254,8 +291,8 @@
                 <div id="result-emoji" class="text-8xl animate-bounce mb-4">🏆</div>
                 <h2 class="text-3xl font-bold text-gray-800 mb-2">Misi Selesai!</h2>
                 <div class="bg-yellow-50 p-4 rounded-2xl border-2 border-yellow-200 w-full mb-6">
-                    <div class="flex justify-between items-center mb-2 px-4"><span class="text-gray-500 font-bold text-sm">Skor Misi</span><span id="final-score" class="text-2xl font-black text-gray-800">0</span></div>
-                    <div class="flex justify-between items-center px-4"><span class="text-orange-500 font-bold text-sm">Power XP</span><span id="final-xp" class="text-2xl font-black text-orange-600">+0 XP</span></div>
+                    <div class="flex justify-between items-center mb-2 px-4"><span class="text-gray-500 font-bold text-sm">Jawaban Benar</span><span id="final-score" class="text-2xl font-black text-gray-800">0/5</span></div>
+                    <div class="flex justify-between items-center px-4"><span class="text-orange-500 font-bold text-sm">Bintang Didapat</span><span id="final-xp" class="text-2xl font-black text-orange-600">+0 ⭐</span></div>
                 </div>
                 <button onclick="startGame(currentMode)" class="w-full py-3 rounded-xl bg-orange-500 text-white font-bold text-lg shadow-lg hover:bg-orange-600 mb-3 click-effect">Main Lagi 🔄</button>
                 <button onclick="goHome()" class="w-full py-3 rounded-xl bg-gray-100 text-gray-600 font-bold text-lg hover:bg-gray-200">Menu Utama 🏠</button>
@@ -269,7 +306,7 @@
                     <div class="flex justify-center gap-4 mt-4">
                         <div class="text-center"><div class="text-xs text-gray-400 font-bold uppercase">Level</div><div id="stats-level" class="text-2xl font-black text-blue-600">1</div></div>
                         <div class="w-px bg-gray-200"></div>
-                        <div class="text-center"><div class="text-xs text-gray-400 font-bold uppercase">Total XP</div><div id="stats-xp" class="text-2xl font-black text-orange-500">0</div></div>
+                        <div class="text-center"><div class="text-xs text-gray-400 font-bold uppercase">Bintang</div><div id="stats-xp" class="text-2xl font-black text-orange-500">0</div></div>
                     </div>
                 </div>
                 <div class="space-y-3">
@@ -285,7 +322,6 @@
                     <p class="text-sm text-gray-500">Kumpulan Rahasia Matematika</p>
                 </div>
                 <div class="space-y-3">
-                    <!-- NEW: METODE CHINA -->
                     <button onclick="openTutorial('china')" class="w-full p-4 bg-white border-2 border-rose-100 rounded-xl flex items-center gap-3 hover:bg-rose-50 transition-colors shadow-sm group">
                         <div class="w-12 h-12 rounded-full bg-rose-500 text-white flex items-center justify-center font-bold text-2xl group-hover:scale-110 transition-transform"><i class="ph-bold ph-abacus"></i></div>
                         <div class="flex-1 text-left">
@@ -297,7 +333,6 @@
 
                     <div class="border-t border-gray-200 my-2 text-xs text-center text-gray-400 font-bold uppercase tracking-widest pt-2">Dasar</div>
 
-                    <!-- Math -->
                     <button onclick="openTutorial('add')" class="w-full p-3 bg-white border border-gray-200 rounded-xl flex items-center gap-3 hover:bg-green-50 transition-colors">
                         <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold">➕</div>
                         <span class="font-bold text-gray-600 flex-1 text-left">Penjumlahan</span>
@@ -364,14 +399,11 @@
                         example: `
                         <div class="text-center font-bold text-lg mb-2">2 x 3 = 6</div>
                         <svg width="100%" height="120" viewBox="0 0 200 120" class="bg-white rounded-lg border border-gray-200 mx-auto">
-                            <!-- Horizontal (2) -->
                             <line x1="40" y1="40" x2="160" y2="40" stroke="#ef4444" stroke-width="6" stroke-linecap="round" class="draw-line" />
                             <line x1="40" y1="80" x2="160" y2="80" stroke="#ef4444" stroke-width="6" stroke-linecap="round" class="draw-line" style="animation-delay: 0.5s"/>
-                            <!-- Vertical (3) -->
                             <line x1="70" y1="20" x2="70" y2="100" stroke="#3b82f6" stroke-width="6" stroke-linecap="round" class="draw-line" style="animation-delay: 1s"/>
                             <line x1="100" y1="20" x2="100" y2="100" stroke="#3b82f6" stroke-width="6" stroke-linecap="round" class="draw-line" style="animation-delay: 1.2s"/>
                             <line x1="130" y1="20" x2="130" y2="100" stroke="#3b82f6" stroke-width="6" stroke-linecap="round" class="draw-line" style="animation-delay: 1.4s"/>
-                            <!-- Dots -->
                             <circle cx="70" cy="40" r="5" fill="#fbbf24" stroke="black" stroke-width="1" />
                             <circle cx="100" cy="40" r="5" fill="#fbbf24" stroke="black" stroke-width="1" />
                             <circle cx="130" cy="40" r="5" fill="#fbbf24" stroke="black" stroke-width="1" />
@@ -407,106 +439,76 @@
                 title: "Trik Penjumlahan",
                 theme: "green",
                 content: [
-                    {
-                        header: "1. Simpan Angka Besar",
-                        body: "Kalau menjumlahkan dua angka, simpan angka yang <strong>lebih besar</strong> di kepalamu, dan siapkan angka kecil di jarimu.",
-                        example: "3 + 8 = ?<br>1. Simpan <strong>8</strong> di kepala.<br>2. Buka <strong>3</strong> jari.<br>3. Hitung maju: 9, 10, 11.<br>Hasil: <strong>11</strong>"
-                    },
-                    {
-                        header: "2. Trik 'Teman 10'",
-                        body: "Cari angka yang kalau dijumlahkan hasilnya 10. Ini mempercepat hitungan!",
-                        example: "Pasangan Teman 10:<br>9+1 | 8+2 | 7+3 | 6+4 | 5+5"
-                    }
+                    { header: "1. Simpan Angka Besar", body: "Simpan angka besar di kepala, hitung maju angka kecil pakai jari.", example: "3 + 8? Simpan 8, buka 3 jari, hitung 9, 10, 11." },
+                    { header: "2. Teman 10", body: "Pasangan angka jadi 10: 9+1, 8+2, 7+3, 6+4, 5+5." }
                 ]
             },
             subtract: {
                 title: "Trik Pengurangan",
                 theme: "red",
                 content: [
-                    {
-                        header: "1. Hitung Mundur",
-                        body: "Jika angka pengurangnya kecil (1, 2, atau 3), gunakan hitung mundur.",
-                        example: "9 - 2 = ?<br>Sebut 9, mundur 2 langkah:<br>8... 7.<br>Hasil: <strong>7</strong>"
-                    },
-                    {
-                        header: "2. Jarak Angka (Selisih)",
-                        body: "Jika angkanya berdekatan, hitung <strong>maju</strong> dari angka kecil ke angka besar.",
-                        example: "12 - 9 = ?<br>Dari 9 ke 12 butuh berapa langkah?<br>10... 11... 12.<br>Butuh 3 langkah. Jawabannya <strong>3</strong>."
-                    }
+                    { header: "1. Hitung Mundur", body: "Jika pengurang kecil (1-3), hitung mundur. 9-2? 8, 7." },
+                    { header: "2. Jarak Angka", body: "Jika angka berdekatan, hitung MAJU. 12-9? 10, 11, 12 (3 langkah)." }
                 ]
             },
             multiply: {
                 title: "Trik Perkalian",
                 theme: "yellow",
                 content: [
-                    {
-                        header: "1. Konsep Dasar",
-                        body: "Perkalian adalah penjumlahan yang berulang.",
-                        example: "3 x 4 artinya <strong>4-nya ada 3 kali</strong>.<br>4 + 4 + 4 = 12."
-                    },
-                    {
-                        header: "2. Jari Sakti Perkalian 9",
-                        body: "Gunakan 10 jarimu untuk perkalian 9 yang ajaib!",
-                        example: "Mau hitung 9 x 4?<br>1. Buka 10 jari.<br>2. Lipat jari ke-4.<br>3. Kiri lipatan ada <strong>3</strong>, kanan ada <strong>6</strong>.<br>Gabung: <strong>36</strong>."
-                    }
+                    { header: "1. Penjumlahan Berulang", body: "3 x 4 artinya 4+4+4 = 12." },
+                    { header: "2. Jari Perkalian 9", body: "Lipat jari ke-N. Kiri jari puluhan, kanan jari satuan." }
                 ]
             },
             divide: {
                 title: "Trik Pembagian",
                 theme: "purple",
-                content: [
-                    {
-                        header: "1. Konsep Berbagi",
-                        body: "Bayangkan membagi permen ke temanmu secara adil.",
-                        example: "10 : 2 artinya<br>10 permen dibagi ke 2 orang.<br>Setiap orang dapat <strong>5</strong>."
-                    },
-                    {
-                        header: "2. Kebalikan Perkalian",
-                        body: "Kalau kamu hafal perkalian, pembagian itu gampang!",
-                        example: "20 : 4 = ?<br>Pikirkan: <strong>4 kali berapa biar jadi 20?</strong><br>Karena 4 x 5 = 20, maka 20 : 4 = <strong>5</strong>."
-                    }
-                ]
+                content: [ { header: "1. Berbagi Adil", body: "10:2 artinya 10 permen dibagi ke 2 orang sama rata." } ]
             },
             clock: {
                 title: "Membaca Jam",
                 theme: "cyan",
-                content: [
-                    {
-                        header: "1. Jarum Pendek & Panjang",
-                        body: "Jarum PENDEK menunjuk <strong>JAM</strong>.<br>Jarum PANJANG menunjuk <strong>MENIT</strong>."
-                    },
-                    {
-                        header: "2. Menit Penting",
-                        body: "Perhatikan posisi jarum panjang:",
-                        example: "Angka 12 = Tepat (.00)<br>Angka 3 = Lewat seperempat (.15)<br>Angka 6 = Setengah (.30)<br>Angka 9 = Kurang seperempat (.45)"
-                    }
-                ]
+                content: [ { header: "Jarum", body: "Pendek = Jam. Panjang = Menit (angka x 5)." } ]
             },
             units: {
                 title: "Satuan Ukur",
                 theme: "indigo",
-                content: [
-                    {
-                        header: "1. Satuan Panjang",
-                        body: "Ingat tangga satuan ini:",
-                        example: "1 meter (m) = 100 cm<br>1 kilometer (km) = 1000 m"
-                    },
-                    {
-                        header: "2. Berat & Waktu",
-                        body: "Hafalan wajib sehari-hari:",
-                        example: "1 kilogram (kg) = 1000 gram<br>1 jam = 60 menit<br>1 menit = 60 detik"
-                    }
-                ]
+                content: [ { header: "Hafalan", body: "1m=100cm, 1kg=1000g, 1jam=60menit." } ]
             }
         };
 
-        // --- CORE FUNCTIONS ---
-        const DEFAULT_PROFILE = { name: "", level: 1, xp: 0, total_score: 0 };
-        let userProfile = JSON.parse(localStorage.getItem('mathHero_profile')) || DEFAULT_PROFILE;
+        // --- CORE FUNCTIONS (PROFILE, STARS, SESSION) ---
+        // Profile structure: { name, level, stars }
+        const DEFAULT_PROFILE = { name: "", level: 1, stars: 0 };
+        let userProfile = JSON.parse(localStorage.getItem('mathHero_juara_profile')) || DEFAULT_PROFILE;
         let selectedTime = 20; let sessionTimer = null; let timeRemaining = 0;
 
-        function saveProfile() { localStorage.setItem('mathHero_profile', JSON.stringify(userProfile)); updateHeaderUI(); }
-        function resetProgress() { if(confirm("Hapus semua data?")) { userProfile = {...DEFAULT_PROFILE}; localStorage.removeItem('mathHero_profile'); logoutUser(); } }
+        function saveProfile() { localStorage.setItem('mathHero_juara_profile', JSON.stringify(userProfile)); updateHeaderUI(); }
+        function resetProgress() { if(confirm("Hapus semua data?")) { userProfile = {...DEFAULT_PROFILE}; localStorage.removeItem('mathHero_juara_profile'); logoutUser(); } }
+        
+        // Stars Logic (Simple 10 stars = 1 level)
+        const STARS_PER_LEVEL = 10;
+        
+        function addStar(amount) {
+            userProfile.stars += amount;
+            if(userProfile.stars >= STARS_PER_LEVEL) {
+                userProfile.stars -= STARS_PER_LEVEL;
+                userProfile.level++;
+                showLevelUpModal();
+                playSound('levelup');
+            }
+            saveProfile();
+        }
+
+        function updateHeaderUI() {
+            document.getElementById('user-name-disp').textContent = userProfile.name || "Juara";
+            document.getElementById('user-level-disp').textContent = userProfile.level;
+            
+            // Star progress
+            document.getElementById('xp-text').textContent = `${userProfile.stars}/${STARS_PER_LEVEL}`;
+            document.getElementById('xp-bar').style.width = `${(userProfile.stars/STARS_PER_LEVEL)*100}%`;
+        }
+
+        // --- SESSION TIMER ---
         function selectTime(min, btn) {
             selectedTime = min;
             document.querySelectorAll('.time-btn').forEach(b => { b.classList.remove('bg-orange-500','text-white'); b.classList.add('bg-white','text-gray-500'); });
@@ -522,8 +524,10 @@
             document.getElementById('session-timer').textContent = `${m}:${s}`;
         }
 
+        // --- NAVIGATION ---
         const screens = ['login', 'menu', 'game', 'result', 'stats', 'tutorial-menu', 'tutorial-read'];
         function showScreen(name) { screens.forEach(s => document.getElementById(`screen-${s}`).classList.add('hidden')); document.getElementById(`screen-${name}`).classList.remove('hidden'); document.getElementById('main-scroll').scrollTop = 0; }
+        
         function saveNameAndStart() {
             const nm = document.getElementById('input-name').value.trim();
             if(nm) { userProfile.name = nm; saveProfile(); document.getElementById('app-header').classList.remove('hidden'); startSessionTimer(); goHome(); }
@@ -531,22 +535,15 @@
         }
         function logoutUser() { stopSessionTimer(); document.getElementById('app-header').classList.add('hidden'); showScreen('login'); }
         function goHome() { if(!userProfile.name) showScreen('login'); else { document.getElementById('app-header').classList.remove('hidden'); updateHeaderUI(); showScreen('menu'); } }
+        
         function showStats() {
-            document.getElementById('stats-name').textContent = userProfile.name; document.getElementById('stats-level').textContent = userProfile.level; document.getElementById('stats-xp').textContent = userProfile.total_score; showScreen('stats');
-        }
-        function calculateXPForNextLevel(lvl) { return lvl * 100; }
-        function updateHeaderUI() {
-            document.getElementById('user-name-disp').textContent = userProfile.name || "Juara"; document.getElementById('user-level-disp').textContent = userProfile.level;
-            const need = calculateXPForNextLevel(userProfile.level);
-            document.getElementById('xp-text').textContent = `${userProfile.xp}/${need}`; document.getElementById('xp-bar').style.width = `${(userProfile.xp/need)*100}%`;
+            document.getElementById('stats-name').textContent = userProfile.name;
+            document.getElementById('stats-level').textContent = userProfile.level;
+            document.getElementById('stats-xp').textContent = userProfile.stars;
+            showScreen('stats');
         }
         function showLevelUpModal() { document.getElementById('levelup-modal').classList.remove('hidden'); }
         function closeLevelModal() { document.getElementById('levelup-modal').classList.add('hidden'); }
-        function addXP(amt) {
-            userProfile.xp += amt; userProfile.total_score += amt;
-            if(userProfile.xp >= calculateXPForNextLevel(userProfile.level)) { userProfile.xp -= calculateXPForNextLevel(userProfile.level); userProfile.level++; showLevelUpModal(); playSound('levelup'); }
-            saveProfile();
-        }
 
         function openTutorial(type) {
             const data = tutorialData[type]; if (!data) return;
@@ -554,7 +551,7 @@
             title.textContent = data.title;
             
             let colorClass = 'bg-blue-600';
-            if (data.theme === 'rose') colorClass = 'bg-rose-500'; if (data.theme === 'green') colorClass = 'bg-green-500'; if (data.theme === 'red') colorClass = 'bg-red-500'; if (data.theme === 'yellow') colorClass = 'bg-yellow-500'; if (data.theme === 'purple') colorClass = 'bg-purple-600'; if (data.theme === 'cyan') colorClass = 'bg-cyan-600'; if (data.theme === 'indigo') colorClass = 'bg-indigo-600';
+            if (data.theme === 'rose') colorClass = 'bg-rose-500'; if (data.theme === 'green') colorClass = 'bg-green-500'; if (data.theme === 'red') colorClass = 'bg-red-500'; if (data.theme === 'yellow') colorClass = 'bg-yellow-500';
 
             btn.className = `w-full py-4 rounded-xl font-bold text-white shadow-lg transition-all pop-effect flex items-center justify-center gap-2 hover:shadow-xl hover:-translate-y-0.5 ${colorClass}`;
             btn.onclick = () => startGame(type === 'china' ? 'multiply' : type);
@@ -567,9 +564,6 @@
                 if(data.theme === 'green') { borderClass='border-l-4 border-green-400'; bgIcon='bg-green-100 text-green-600'; }
                 if(data.theme === 'red') { borderClass='border-l-4 border-red-400'; bgIcon='bg-red-100 text-red-600'; }
                 if(data.theme === 'yellow') { borderClass='border-l-4 border-yellow-400'; bgIcon='bg-yellow-100 text-yellow-600'; }
-                if(data.theme === 'purple') { borderClass='border-l-4 border-purple-400'; bgIcon='bg-purple-100 text-purple-600'; }
-                if(data.theme === 'cyan') { borderClass='border-l-4 border-cyan-400'; bgIcon='bg-cyan-100 text-cyan-600'; }
-                if(data.theme === 'indigo') { borderClass='border-l-4 border-indigo-400'; bgIcon='bg-indigo-100 text-indigo-600'; }
 
                 card.className = `tut-card bg-white p-5 rounded-xl shadow-sm border border-gray-100 ${borderClass}`;
                 let html = `<div class="flex items-center gap-3 mb-3"><div class="w-8 h-8 rounded-full ${bgIcon} flex items-center justify-center shrink-0"><i class="ph-bold ph-lightbulb"></i></div><h3 class="font-bold text-lg text-gray-800 leading-tight">${section.header}</h3></div><p class="text-gray-600 text-sm leading-relaxed mb-3 pl-11">${section.body}</p>`;
@@ -580,8 +574,18 @@
         }
 
         // --- GAME LOGIC ---
-        let currentMode = ''; let currentScore = 0; let earnedXP = 0; let questionCount = 0; const maxQuestions = 5; let correctAnswer = ""; let isGameActive = false;
-        function startGame(mode) { currentMode = mode; currentScore = 0; earnedXP = 0; questionCount = 0; isGameActive = true; showScreen('game'); nextQuestion(); }
+        let currentMode = ''; let correctAnswersCount = 0; let earnedStars = 0; let questionCount = 0; const maxQuestions = 5; let correctAnswer = ""; let isGameActive = false;
+        
+        // Question Timer Variables
+        let questionTimerInterval = null;
+        const QUESTION_TIME_LIMIT = 15; // seconds
+
+        function startGame(mode) { 
+            currentMode = mode; correctAnswersCount = 0; earnedStars = 0; questionCount = 0; isGameActive = true; 
+            showScreen('game'); nextQuestion(); 
+        }
+
+        // Helper: Draw Clock
         function drawClock(hours, minutes) {
             const canvas = document.getElementById('game-clock-canvas'); const ctx = canvas.getContext('2d');
             const radius = canvas.height / 2; ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.translate(radius, radius); const r = radius * 0.90;
@@ -594,14 +598,40 @@
         }
         function drawHand(ctx, pos, length, width, color) { ctx.beginPath(); ctx.lineWidth = width; ctx.lineCap = "round"; ctx.strokeStyle = color; ctx.moveTo(0,0); ctx.rotate(pos); ctx.lineTo(0, -length); ctx.stroke(); ctx.rotate(-pos); }
 
+        // Helper: Generate Objects for Counting Game
+        function generateObjects(count) {
+            const emojis = ['🍎', '🍌', '🚗', '🐱', '🐶', '🌟', '🎈', '⚽'];
+            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+            let html = '';
+            for(let i=0; i<count; i++) {
+                html += `<div>${randomEmoji}</div>`;
+            }
+            return html;
+        }
+
         function generateNumbers() {
-            const textBox = document.getElementById('text-question-box'); const clockBox = document.getElementById('clock-question-box'); const qText = document.getElementById('question-text');
+            const textBox = document.getElementById('text-question-box'); 
+            const clockBox = document.getElementById('clock-question-box'); 
+            const imageBox = document.getElementById('image-question-box');
+            const qText = document.getElementById('question-text');
+            const imgGrid = document.getElementById('image-grid');
+
+            // Reset Visibility
+            textBox.classList.add('hidden'); clockBox.classList.add('hidden'); imageBox.classList.add('hidden');
+
             if (currentMode === 'clock') {
-                textBox.classList.add('hidden'); clockBox.classList.remove('hidden');
+                clockBox.classList.remove('hidden');
                 const h = Math.floor(Math.random() * 12) + 1; const m = Math.floor(Math.random() * 4) * 15;
                 drawClock(h, m); return { type: 'clock', a: `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}` };
-            } else {
-                textBox.classList.remove('hidden'); clockBox.classList.add('hidden');
+            } 
+            else if (currentMode === 'counting') {
+                imageBox.classList.remove('hidden');
+                const count = Math.floor(Math.random() * 9) + 1; // 1-9
+                imgGrid.innerHTML = generateObjects(count);
+                return { type: 'counting', a: count };
+            }
+            else {
+                textBox.classList.remove('hidden');
                 if (currentMode === 'units') {
                     const type = Math.floor(Math.random() * 3); let val = Math.floor(Math.random() * 9) + 1;
                     if(type === 0) { qText.textContent = `${val} m = ... cm`; return { a: val * 100 }; } 
@@ -619,10 +649,51 @@
             }
         }
 
+        function startQuestionTimer() {
+            if (questionTimerInterval) clearInterval(questionTimerInterval);
+            
+            const bar = document.getElementById('question-timer-bar');
+            bar.style.transition = 'none'; // Reset animation
+            bar.style.width = '100%';
+            bar.style.backgroundColor = '#22c55e'; // Green
+            
+            // Trigger reflow
+            void bar.offsetWidth;
+
+            bar.style.transition = `width ${QUESTION_TIME_LIMIT}s linear, background-color ${QUESTION_TIME_LIMIT}s linear`;
+            bar.style.width = '0%';
+            bar.style.backgroundColor = '#ef4444'; // Red
+
+            // JS Timeout to handle end of time
+            questionTimerInterval = setTimeout(() => {
+                handleTimeOut();
+            }, QUESTION_TIME_LIMIT * 1000);
+        }
+
+        function handleTimeOut() {
+            // Time is up! Treat as wrong answer
+            const fb = document.getElementById('feedback-msg');
+            fb.textContent = "Waktu Habis! ⏳"; 
+            fb.className="h-8 mb-4 font-bold text-xl text-red-500 opacity-100";
+            playSound('wrong');
+            
+            // Disable buttons
+            const grid = document.getElementById('options-grid');
+            Array.from(grid.children).forEach(b => b.disabled = true);
+
+            setTimeout(() => { if(isGameActive) nextQuestion(); }, 1500);
+        }
+
         function nextQuestion() {
             if(questionCount >= maxQuestions) { endGame(); return; }
-            questionCount++; document.getElementById('game-timer-bar').style.width = `${((maxQuestions-questionCount+1)/maxQuestions)*100}%`;
-            const q = generateNumbers(); correctAnswer = q.a; document.getElementById('feedback-msg').style.opacity = 0; generateOptions(correctAnswer, currentMode);
+            questionCount++; 
+            document.getElementById('question-progress-text').textContent = `Soal ${questionCount}/${maxQuestions}`;
+            
+            const q = generateNumbers(); correctAnswer = q.a; 
+            document.getElementById('feedback-msg').style.opacity = 0; 
+            
+            generateOptions(correctAnswer, currentMode);
+            startQuestionTimer(); // START TIMER HERE
         }
 
         function generateOptions(correct, mode) {
@@ -633,6 +704,9 @@
                 } else if (mode === 'units') {
                     let mag = correct >= 1000 ? 1000 : (correct >= 100 ? 100 : 10); let diff = (Math.floor(Math.random()*5)+1) * (mag/10); 
                     if(Math.random() > 0.5) diff = -diff; if(correct+diff > 0 && correct+diff !== correct) opts.add(correct+diff);
+                } else if (mode === 'counting') {
+                    let diff = Math.floor(Math.random()*5)-2; 
+                    if(diff !== 0 && correct+diff > 0) opts.add(correct+diff);
                 } else {
                     let diff = Math.floor(Math.random()*10)-5; if(diff !== 0 && correct+diff >= 0) opts.add(correct+diff);
                 }
@@ -645,19 +719,36 @@
         }
 
         function checkAnswer(val, btn) {
+            // Stop Timer
+            if (questionTimerInterval) clearTimeout(questionTimerInterval);
+            // Stop animation visually
+            const bar = document.getElementById('question-timer-bar');
+            bar.style.transition = 'none';
+            bar.style.width = bar.offsetWidth + 'px'; // Freeze width
+
             const grid = document.getElementById('options-grid'); Array.from(grid.children).forEach(b => b.disabled = true); const fb = document.getElementById('feedback-msg');
+            
             if (val === correctAnswer) {
-                currentScore += 10; earnedXP += 15;
+                correctAnswersCount++; earnedStars += 1; // 1 Star per correct answer
                 btn.classList.replace('border-orange-100','border-green-500'); btn.classList.add('bg-green-50','text-green-600');
-                fb.textContent = "Benar! +15 XP"; fb.className="h-8 mb-4 font-bold text-xl text-green-600 opacity-100"; playSound('correct');
+                fb.textContent = "Benar! +1 ⭐"; fb.className="h-8 mb-4 font-bold text-xl text-green-600 opacity-100"; playSound('correct');
             } else {
                 btn.classList.replace('border-orange-100','border-red-500'); btn.classList.add('bg-red-50','text-red-600');
-                fb.textContent = `Jawabannya ${correctAnswer}`; fb.className="h-8 mb-4 font-bold text-xl text-red-500 opacity-100"; playSound('wrong');
+                fb.textContent = `Salah, yang benar ${correctAnswer}`; fb.className="h-8 mb-4 font-bold text-xl text-red-500 opacity-100"; playSound('wrong');
             }
             setTimeout(() => { if(isGameActive) nextQuestion(); }, 1200);
         }
 
-        function endGame() { isGameActive = false; document.getElementById('final-score').textContent = currentScore; document.getElementById('final-xp').textContent = `+${earnedXP} XP`; showScreen('result'); if(earnedXP > 0) addXP(earnedXP); }
+        function endGame() { 
+            isGameActive = false; 
+            if (questionTimerInterval) clearTimeout(questionTimerInterval);
+
+            document.getElementById('final-score').textContent = `${correctAnswersCount}/${maxQuestions}`; 
+            document.getElementById('final-xp').textContent = `+${earnedStars} ⭐`; 
+            
+            showScreen('result'); 
+            if(earnedStars > 0) addStar(earnedStars); 
+        }
 
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playSound(type) { if(audioCtx.state==='suspended')audioCtx.resume(); const osc=audioCtx.createOscillator(); const g=audioCtx.createGain(); osc.connect(g); g.connect(audioCtx.destination); const t=audioCtx.currentTime; if(type==='correct'){osc.freq=600;osc.frequency.setValueAtTime(600,t);osc.frequency.exponentialRampToValueAtTime(1000,t+0.1);g.gain.setValueAtTime(0.2,t);g.gain.linearRampToValueAtTime(0,t+0.3);osc.start(t);osc.stop(t+0.3);} else if(type==='wrong'){osc.type='sawtooth';osc.frequency.setValueAtTime(150,t);g.gain.setValueAtTime(0.2,t);g.gain.linearRampToValueAtTime(0,t+0.2);osc.start(t);osc.stop(t+0.2);} else if(type==='levelup'){[440,554,659,880].forEach((f,i)=>{const o=audioCtx.createOscillator();o.type='triangle';const gn=audioCtx.createGain();o.connect(gn);gn.connect(audioCtx.destination);o.frequency.value=f;gn.gain.setValueAtTime(0.1,t+i*0.1);gn.gain.linearRampToValueAtTime(0,t+i*0.1+0.4);o.start(t+i*0.1);o.stop(t+i*0.1+0.4);});} }
